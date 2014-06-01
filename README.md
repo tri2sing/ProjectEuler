@@ -15,4 +15,4 @@ Named after Leonard Euler:  http://en.wikipedia.org/wiki/Leonhard_Euler
 
 05/26/2014: Smallest number divisible by first N.  219427th person to have solved this problem.
 
-
+06/01/2014: Difference of square of sums and sum of squares.  221850th person to have solved this problem.
