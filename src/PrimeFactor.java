@@ -2,7 +2,6 @@ public class PrimeFactor {
 
 	public static void main(String[] args) {
 
-		System.out.println("Hello World");
 		
 		long largest = -1;
 
@@ -27,14 +26,14 @@ public class PrimeFactor {
 		long checker = 12;
 		while (largest < target) {
 			// checker - 1 = 11, 17, 23, 29, 35 (ineligible), 41, ...
-			if ((checker - 1) % 5 != 0) {
+			if ((checker - 1) % 5 != 0 && (checker - 1) % 7 != 0) {
 				if (target % (checker - 1) == 0) {
 					largest = checker - 1;
 					while (target % (checker - 1) == 0) target /= (checker - 1);
 				}
 			}
 			// checker + 1 = 13, 19, 25 (ineligible), 31, 37, 43, 
-			if ((checker + 1) % 5 != 0) {
+			if ((checker + 1) % 5 != 0 && (checker + 1) % 7 != 0) {
 				if (target % (checker + 1) == 0) {
 					largest = checker + 1;
 					while (target % (checker + 1) == 0) target /= (checker + 1);
