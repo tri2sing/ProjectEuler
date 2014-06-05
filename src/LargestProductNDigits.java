@@ -4,6 +4,12 @@ public class LargestProductNDigits {
 	private int [] buffer;
 	private int len;
 	
+	private int sBrute;  // Store location of start of largest product
+	private int eBrute;	// Store location of start of smallest product
+	
+	private int sEff;
+	private int eEff;
+	
 	// The 1000 digit number is stored as a string.
 	public LargestProductNDigits (String  num) {
 		len = num.length();
@@ -34,8 +40,8 @@ public class LargestProductNDigits {
 	}
 	
 	// Multiplies all numbers from start to end-1
-	private int multiplyConsecutive (int start, int end) {
-		int prod = 1;
+	private long multiplyConsecutive (int start, int end) {
+		long prod = 1;
 		
 		for (int i = start; i < end; i++) {
 			prod *= buffer[i];
@@ -43,29 +49,51 @@ public class LargestProductNDigits {
 		return prod;
 	}
 	
-	// Find the largest product of n consecutive digits
-	public int largestProductNDigits (int N) {
-		int current = 1, largest = 1;
+	// Find the largest product of N consecutive digits using brute force.
+	// Goes through the digits in a sliding window of length N and multiplies.
+	// This leads to repeated multiplication of overlapping numbers among
+	// consecutive windows.
+	
+	public long findLargestProductBrute (int N) {
+		long current = 1, largest = 1;
+		
+		for (int i = 0; i < len - N + 1; i++) {
+			current = multiplyConsecutive(i,  i + N);
+			if (current > largest) {
+				largest = current;
+				sBrute = i;
+				eBrute = i + N - 1;
+			}
+		}
+		return largest;
+	}
+
+	// Find the largest product of N consecutive digits in an efficient manner.
+	// The basic idea is that the product of 1 to N overlaps with 2 to N+1 for N-1 terms.
+	public long findLargestProductEfficent (int N) {
+		long current = 1, largest = 1;
 		
 		// Find the first consecutive non-zero N numbers
 		int start = 0;
 		int zeroAt = isZeroInNextN(start, N);
 		while (zeroAt != -1){
-			start = zeroAt + N;
+			start = zeroAt + 1;
 			zeroAt = isZeroInNextN(start, N);
 		}
 		current = multiplyConsecutive(start, start + N);
 		largest = current;
 		
 		// Now we can incrementally work through the array
-		for(int k = start, i = start + N; i < len; k++, i++) {
-			
+		int k = start, i = start + N;
+		while (i < len) {
 			// if next digit is non zero we update the product
 			// using a sliding window.
 			if(buffer[i] != 0) {
 				// Multiply by the next digit and then
 				// divide by the  digit that is to fall off
-				current = (current * buffer[i]) / buffer[k];  
+				current = (current * buffer[i]) / buffer[k];
+				i++;
+				k++;
 			}
 			else {  // if the next digit is zero then
 				// find the next sequence of non-zeroes
@@ -73,17 +101,19 @@ public class LargestProductNDigits {
 				if (start + N >= len) break;
 				zeroAt = isZeroInNextN(start, N);
 				while (zeroAt != -1){
-					start = zeroAt + N;
+					start = zeroAt + 1;
 					if (start + N >= len) break;
 					zeroAt = isZeroInNextN(start, N);
 				}
 				if (start + N >= len) break;
 				current = multiplyConsecutive(start, start + N);
-				i = start + N - 1;
-				k = i - N;				
+				k = start;
+				i = start + N;				
 			}
 
 			if(current > largest){
+				sEff = k;
+				eEff = i - 1;
 				largest = current;
 			}
 		}
@@ -91,6 +121,14 @@ public class LargestProductNDigits {
 		return largest;
 	}
 	
+	void printIndicesBrute() {
+		System.out.println("Start = " + sBrute + " End = " + eBrute);
+	}
+
+	void printIndicesEff() {
+		System.out.println("Start = " + sEff + " End = " + eEff);
+	}
+
 	public static void main(String[] args) {
 
 		String num = "78023783282389";
@@ -100,15 +138,33 @@ public class LargestProductNDigits {
 		
 		System.out.println("\nFor a 14 digit number");
 		lpnd.printNumber();
-		System.out.println("Largest product 1 digit = " + lpnd.largestProductNDigits(1));
-		System.out.println("Largest product 2 digit = " + lpnd.largestProductNDigits(2));
-		System.out.println("Largest product 3 digit = " + lpnd.largestProductNDigits(3));
+		System.out.println("Largest product 1 digit eff = " + lpnd.findLargestProductEfficent(1));
+		lpnd.printIndicesEff();
+		System.out.println("Largest product 1 digit brute = " + lpnd.findLargestProductBrute(1));
+		lpnd.printIndicesBrute();
+		System.out.println("Largest product 2 digit eff = " + lpnd.findLargestProductEfficent(2));
+		lpnd.printIndicesEff();
+		System.out.println("Largest product 2 digit brute = " + lpnd.findLargestProductBrute(2));
+		lpnd.printIndicesBrute();
+		System.out.println("Largest product 3 digit eff = " + lpnd.findLargestProductEfficent(3));
+		lpnd.printIndicesEff();
+		System.out.println("Largest product 3 digit brute = " + lpnd.findLargestProductBrute(3));
+		lpnd.printIndicesBrute();
 	
 		System.out.println("\nFor a 1000 digit number");
 		lpnd1.printNumber();
-		System.out.println("Largest product 1 digit = " + lpnd1.largestProductNDigits(1));
-		System.out.println("Largest product 4 digit = " + lpnd1.largestProductNDigits(4));
-		System.out.println("Largest product 13 digit = " + lpnd1.largestProductNDigits(13));
+		System.out.println("Largest product 1 digit eff = " + lpnd1.findLargestProductEfficent(1));
+		lpnd1.printIndicesEff();
+		System.out.println("Largest product 1 digit brute = " + lpnd1.findLargestProductBrute(1));
+		lpnd1.printIndicesBrute();
+		System.out.println("Largest product 4 digit eff = " + lpnd1.findLargestProductEfficent(4));
+		lpnd1.printIndicesEff();
+		System.out.println("Largest product 4 digit brute = " + lpnd1.findLargestProductBrute(4));
+		lpnd1.printIndicesBrute();
+		System.out.println("Largest product 13 digit eff = " + lpnd1.findLargestProductEfficent(13));
+		lpnd1.printIndicesEff();
+		System.out.println("Largest product 13 digit brute = " + lpnd1.findLargestProductBrute(13));
+		lpnd1.printIndicesBrute();
 		
 		
 	}

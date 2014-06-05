@@ -18,3 +18,5 @@ Named after Leonard Euler:  http://en.wikipedia.org/wiki/Leonhard_Euler
 06/01/2014: Difference of square of sums and sum of squares.  221850th person to have solved this problem.
 
 06/01/2014: Nth Prime Number.  190122nd person to have solved this problem.
+
+06/05/2014: Largest product of N cosecutive digits.  169032nd person to have solved this problem.
