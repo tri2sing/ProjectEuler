@@ -23,3 +23,4 @@ Named after Leonard Euler:  http://en.wikipedia.org/wiki/Leonhard_Euler
 
 06/08/2014: Problem 9.  Pythagorean triplets. 167197th person to have solved this problem. 
 
+06/08/2014: Problem 10. Sum primes below N. 153205th person to have solved this problem.
