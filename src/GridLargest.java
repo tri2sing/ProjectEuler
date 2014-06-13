@@ -45,20 +45,14 @@ public class GridLargest {
 	public int largestDiagonal(int window) {
 		int largest = -1;
 		int i, j, k;
+		// The number of diagonal slices is given by
 		int slices = rows * cols - 1;
-		// If number of slices is odd, then this will be an integer division
-		int above = slices / 2;  
-		int below = slices - above;
 		
-		// Look at the diagonal slices in the top half
-		for (j = 1; j < cols; j++){
+		// Slice determines the starting point of the diagonal
+		for (k = 0; k < slices; k++){
 			
 		}
 		
-		// Look at the diagonal slices in the bottom half
-		for (i = 0; i < rows; i++) {
-		
-		}
 		
 		return largest;
 	}
