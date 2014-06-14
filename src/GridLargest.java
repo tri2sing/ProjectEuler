@@ -54,7 +54,8 @@ public class GridLargest {
 		// The number of diagonal slices is given by
 		int slices = rows + cols - 1;
 
-		// Traverse the diagonal slices starting at the right top
+		// Traverse the diagonal slices starting at the 
+		// right top and going towards left bottom (clockwise)
 		for (k = -cols + 1; k < rows; k++) {
 			System.out.print("Slice " + k + ": ");
 			i = (k < 0) ? 0 : k;
@@ -70,6 +71,17 @@ public class GridLargest {
 		return largest;
 	}
 
+	public int largestDiagonalInverse(int window) {
+		int largest = -1;
+		int i, j, k;
+		int slices = rows + cols - 1;
+		
+		// Traverse the diagonal inverses starting at the 
+		// right bottom and towards left top (counter clockwise)
+		
+		return largest;
+	}
+	
 	public static void main(String[] args) {
 		int [][] data = new int [][] {
 				{0, 1, 2, 3},
